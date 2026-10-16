@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#ff3f91">
+<meta name="description" content="MakeQuiz: juega, aprende y descubre el mundo del maquillaje con retos, cuestionarios y consejos beauty.">
+<title>MakeQuiz 💗 — Tu mundo beauty</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Pacifico&display=swap');
+:root{--pink:#ff3f91;--pink2:#ff78b6;--rose:#ffdeec;--pale:#fff5fa;--purple:#a878df;--ink:#442438;--muted:#8c6579;--white:#fff;--green:#2b9b67;--shadow:0 14px 35px #a83d7020}
+*{box-sizing:border-box;scroll-behavior:smooth}
+body{margin:0;font-family:Nunito,system-ui,sans-serif;color:var(--ink);background:radial-gradient(circle at 10% 5%,#fff 0,#fff4f9 30%,#ffe0ed 75%,#ffd2e6 100%);min-height:100vh}
+button,input,select{font:inherit}
+button{cursor:pointer;border:0;transition:transform .18s,box-shadow .18s,filter .18s}
+button:hover{transform:translateY(-2px);filter:saturate(1.1)}
+button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid #8b2e68;outline-offset:3px}
+a{color:inherit}
+.topbar{position:sticky;top:0;z-index:20;background:#3b1d30f5;color:white;padding:12px clamp(14px,4vw,55px);display:flex;align-items:center;justify-content:space-between;gap:15px;box-shadow:0 5px 20px #4c18322a;backdrop-filter:blur(12px)}
+.brand{font-size:25px;font-weight:900;white-space:nowrap;color:#ff8dbf}.brand span{color:white}
+.nav{display:flex;align-items:center;justify-content:center;gap:6px;flex-wrap:wrap}
+.nav button{background:transparent;color:#fff;padding:9px 12px;border-radius:25px;font-weight:800}
+.nav button.active,.nav button:hover{background:#ff4b97;color:#fff}
+.top-actions{display:flex;gap:8px;align-items:center}
+.icon-btn{background:#ffffff20;color:white;border:1px solid #ffffff42;border-radius:50%;width:40px;height:40px;font-size:18px}
+main{width:min(1180px,94%);margin:auto}
+.hero{margin:24px 0 20px;border:2px solid #fff;background:linear-gradient(115deg,#ffcee2,#ffe9f3 52%,#d9c3ff);border-radius:30px;padding:clamp(22px,5vw,55px);display:grid;grid-template-columns:1.25fr .75fr;align-items:center;gap:20px;overflow:hidden;box-shadow:var(--shadow);position:relative}
+.hero:after{content:"✦ ♡ ✧";position:absolute;right:20px;top:10px;font-size:30px;color:#fff9;letter-spacing:14px}
+.eyebrow{display:inline-block;background:#fff9;border:1px solid white;padding:8px 14px;border-radius:25px;font-size:12px;font-weight:900;letter-spacing:1.4px}
+h1{font-size:clamp(37px,6vw,68px);line-height:1.02;margin:16px 0;color:#e82d82;letter-spacing:-2px}
+.script{font-family:Pacifico,cursive;color:#9a5bd1;font-weight:400}
+.hero p{font-size:17px;line-height:1.7;max-width:610px}
+.hero-art{font-size:clamp(100px,17vw,190px);text-align:center;filter:drop-shadow(0 15px 8px #b64a7b2b);animation:float 3s ease-in-out infinite}
+@keyframes float{50%{transform:translateY(-9px) rotate(2deg)}}
+.btn-row{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px}
+.btn{padding:12px 19px;border-radius:15px;font-weight:900;box-shadow:0 6px 15px #d83c7b1c}
+.primary{background:linear-gradient(135deg,#ff3188,#ed4ba0);color:white}
+.soft{background:white;color:#c42b70;border:1px solid #ffc2dc}
+.dark{background:#422036;color:white}
+.lilac{background:#eee0ff;color:#7941a8}
+.mint{background:#d9ffec;color:#18734b}
+.small{padding:8px 12px;font-size:13px;border-radius:12px}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:20px 0}
+.stat{background:#fff9;border:1px solid #fff;border-radius:19px;padding:15px;text-align:center;box-shadow:var(--shadow)}
+.stat .emoji{font-size:26px}.stat strong{display:block;font-size:24px;color:#e93283}.stat small{color:var(--muted);font-weight:800}
+.section{margin:30px 0;scroll-margin-top:90px}
+.section-head{display:flex;align-items:end;justify-content:space-between;gap:15px;flex-wrap:wrap;margin-bottom:15px}
+.section-head h2{margin:0;font-size:clamp(24px,4vw,32px)}.section-head p{margin:4px 0 0;color:var(--muted)}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.tile{border:1px solid #fff;background:#ffffffc9;border-radius:22px;padding:19px;box-shadow:var(--shadow);text-align:left;min-height:150px}
+.tile .tile-emoji{font-size:36px;display:block;margin-bottom:9px}.tile strong{font-size:17px;display:block}.tile p{font-size:13px;color:var(--muted);line-height:1.5;margin-bottom:0}
+.tile:hover{border-color:#ff8fbd;box-shadow:0 16px 30px #c24b8126}
+.panel{background:#ffffffc9;border:1px solid #fff;border-radius:25px;padding:clamp(17px,3vw,28px);box-shadow:var(--shadow)}
+.hidden{display:none!important}
+.quiz-layout{display:grid;grid-template-columns:1fr 260px;gap:18px}
+.progress-wrap{height:11px;border-radius:20px;background:#f8d1e2;overflow:hidden;margin:12px 0 18px}.progress{height:100%;width:0;background:linear-gradient(90deg,#ff3f91,#b982f4);transition:width .3s}
+.quiz-meta{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;color:var(--muted);font-size:13px;font-weight:900}
+#questionTitle{font-size:clamp(22px,4vw,30px);margin:12px 0 20px;line-height:1.25}
+.answers{display:grid;grid-template-columns:1fr 1fr;gap:11px}
+.answer{background:white;color:var(--ink);border:2px solid #f5c7dc;border-radius:15px;padding:15px;text-align:left;font-weight:800;min-height:66px}
+.answer:hover:not(:disabled){background:#fff1f7;border-color:#ff78b6}
+.answer.correct{background:#dcffeb;border-color:#37b77b}.answer.wrong{background:#ffe2eb;border-color:#f45b8e}.answer:disabled{cursor:default}
+.feedback{min-height:48px;margin:15px 0 0;font-weight:900;line-height:1.5}
+.side-card{background:linear-gradient(150deg,#4a243b,#6e3155);color:white;border-radius:22px;padding:20px}
+.side-card h3{margin-top:0}.side-card p{line-height:1.6;color:#ffe4f0}
+.badge-list{display:flex;flex-wrap:wrap;gap:8px}.badge{background:#fff0f7;border:1px solid #ffc3df;color:#a52c68;border-radius:30px;padding:7px 11px;font-size:12px;font-weight:900}
+.result{text-align:center;padding:25px 10px}.result-emoji{font-size:72px}.result-score{font-size:clamp(42px,8vw,68px);font-weight:900;color:#e93283}
+.result h3{font-size:25px;margin:5px}.result p{max-width:600px;margin:12px auto;line-height:1.7}
+.result-actions{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:20px}
+.question-list{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.mini-card{background:#fff;border:1px solid #ffdeeb;border-radius:18px;padding:16px}
+.mini-card .emoji{font-size:28px}.mini-card h3{margin:8px 0}.mini-card p{font-size:13px;color:var(--muted);line-height:1.5}
+.tip-card{display:flex;gap:15px;align-items:flex-start}.tip-card .emoji{font-size:37px}
+.tip-card h3{margin:0 0 5px}.tip-card p{margin:0;line-height:1.6;color:var(--muted)}
+.callout{background:linear-gradient(110deg,#ffcee2,#e6d5ff);border:1px solid white;border-radius:25px;padding:24px;display:flex;justify-content:space-between;align-items:center;gap:15px;flex-wrap:wrap}
+footer{margin-top:40px;background:#3b1d30;color:#ffe8f2;text-align:center;padding:28px 15px;line-height:1.8}
+footer strong{color:#ff8dbf}.toast{position:fixed;bottom:20px;left:50%;transform:translate(-50%,30px);opacity:0;pointer-events:none;background:#422036;color:white;padding:13px 20px;border-radius:30px;box-shadow:var(--shadow);z-index:50;transition:.25s;text-align:center;max-width:90%}.toast.show{opacity:1;transform:translate(-50%,0)}
+.modal-backdrop{position:fixed;inset:0;background:#2d1224a8;display:grid;place-items:center;padding:20px;z-index:40}.modal{background:#fff4fa;border:2px solid white;border-radius:25px;padding:25px;max-width:520px;width:100%;box-shadow:0 20px 60px #0003}.modal h2{margin-top:0}
+input,select{border:1px solid #efbad2;background:white;border-radius:12px;padding:12px;color:var(--ink);width:100%;margin:7px 0 12px}
+@media(max-width:850px){.topbar{flex-wrap:wrap;justify-content:center}.nav{order:3;width:100%}.hero{grid-template-columns:1fr;text-align:center}.hero p{margin:auto}.btn-row{justify-content:center}.hero-art{font-size:105px}.grid{grid-template-columns:repeat(2,1fr)}.quiz-layout{grid-template-columns:1fr}.side-card{order:2}.question-list{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:520px){.stats{grid-template-columns:repeat(2,1fr)}.grid{grid-template-columns:1fr 1fr;gap:9px}.tile{padding:14px;min-height:140px}.answers{grid-template-columns:1fr}.question-list{grid-template-columns:1fr}.brand{font-size:22px}.nav button{padding:8px;font-size:12px}.hero{padding:22px 16px}.section-head{align-items:start}}
+</style>
+</head>
+<body>
+<header class="topbar">
+  <div class="brand">💄 Make<span>Quiz</span> ♡</div>
+  <nav class="nav" aria-label="Navegación principal">
+    <button class="active" data-go="inicio">🏠 Inicio</button>
+    <button data-go="categorias">🎀 Categorías</button>
+    <button data-go="juego">🎮 Jugar</button>
+    <button data-go="consejos">✨ Tips</button>
+    <button data-go="retos">🏆 Retos</button>
+  </nav>
+  <div class="top-actions">
+    <button class="icon-btn" id="soundBtn" aria-label="Activar o desactivar sonidos" title="Sonidos">🔔</button>
+    <button class="icon-btn" id="profileBtn" aria-label="Editar perfil" title="Mi perfil">👑</button>
+  </div>
+</header>
+
+<main>
+<section class="hero" id="inicio">
+  <div>
+    <span class="eyebrow">✦ TU RINCÓN BEAUTY ✦</span>
+    <h1>¿Cuánto sabes de <span class="script">maquillaje?</span></h1>
+    <p>¡Juega, aprende y brilla! Descubre trucos, supera cuestionarios y conviértete en una estrella del mundo beauty. 💗</p>
+    <div class="btn-row">
+      <button class="btn primary" onclick="startQuiz('mix')">▶ Comenzar a jugar</button>
+      <button class="btn soft" onclick="goTo('categorias')">♡ Explorar categorías</button>
+      <button class="btn lilac" onclick="dailyChallenge()">🎁 Reto sorpresa</button>
+    </div>
+  </div>
+  <div class="hero-art" aria-label="Maquillaje decorativo">💄🪞✨</div>
+</section>
+
+<section class="stats" aria-label="Tus estadísticas">
+  <div class="stat"><div class="emoji">⭐</div><strong id="totalPoints">0</strong><small>Puntos beauty</small></div>
+  <div class="stat"><div class="emoji">🎮</div><strong id="playedCount">0</strong><small>Juegos jugados</small></div>
+  <div class="stat"><div class="emoji">🔥</div><strong id="bestScore">0%</strong><small>Mejor resultado</small></div>
+  <div class="stat"><div class="emoji">🏅</div><strong id="badgeCount">0</strong><small>Insignias</small></div>
+</section>
+
+<section class="section" id="categorias">
+  <div class="section-head"><div><h2>🎀 Elige tu categoría</h2><p>Hay un reto para cada amante del maquillaje.</p></div><span class="badge">6 categorías</span></div>
+  <div class="grid">
+    <button class="tile" onclick="startQuiz('basicos')"><span class="tile-emoji">💄</span><strong>Maquillaje básico</strong><p>Productos, usos y primeros pasos.</p></button>
+    <button class="tile" onclick="startQuiz('ojos')"><span class="tile-emoji">👁️</span><strong>Ojos de impacto</strong><p>Sombras, rímel y delineados.</p></button>
+    <button class="tile" onclick="startQuiz('piel')"><span class="tile-emoji">🧴</span><strong>Piel radiante</strong><p>Preparación, base y cuidado.</p></button>
+    <button class="tile" onclick="startQuiz('labios')"><span class="tile-emoji">💋</span><strong>Labios perfectos</strong><p>Labiales, gloss y combinaciones.</p></button>
+    <button class="tile" onclick="startQuiz('herramientas')"><span class="tile-emoji">🖌️</span><strong>Brochas y herramientas</strong><p>Aprende qué herramienta usar.</p></button>
+    <button class="tile" onclick="startQuiz('experta')"><span class="tile-emoji">👑</span><strong>Nivel experta</strong><p>Preguntas un poquito más difíciles.</p></button>
+    <button class="tile" onclick="startQuiz('marcas')"><span class="tile-emoji">🛍️</span><strong>Marcas y productos</strong><p>Reconoce productos y sus funciones.</p></button>
+    <button class="tile" onclick="startQuiz('mix')"><span class="tile-emoji">🌈</span><strong>De todo un poco</strong><p>Una mezcla sorpresa de preguntas.</p></button>
+  </div>
+</section>
+
+<section class="section" id="juego">
+  <div class="section-head"><div><h2>🎮 Zona de juego</h2><p>Lee con atención, elige una respuesta y suma puntos.</p></div></div>
+  <div class="quiz-layout">
+    <div class="panel">
+      <div id="quizWelcome">
+        <div style="font-size:54px">🎀💋✨</div>
+        <h2>¡Tu aventura beauty empieza aquí!</h2>
+        <p>Escoge una categoría y responde las preguntas. Cada acierto vale 10 puntos y al terminar recibirás un mensaje especial.</p>
+        <div class="badge-list"><span class="badge">⭐ Puntos</span><span class="badge">🏆 Insignias</span><span class="badge">💗 Consejos</span><span class="badge">🎉 Sorpresas</span></div>
+        <div class="btn-row"><button class="btn primary" onclick="startQuiz('mix')">¡Vamos allá!</button><button class="btn soft" onclick="startQuiz('experta')">Probar nivel experto 👑</button></div>
+      </div>
+      <div id="quizArea" class="hidden">
+        <div class="quiz-meta"><span id="quizCategory">🌸 Reto beauty</span><span id="questionCount">Pregunta 1/10</span><span>⭐ <b id="livePoints">0</b></span></div>
+        <div class="progress-wrap"><div class="progress" id="progressBar"></div></div>
+        <h2 id="questionTitle">Pregunta</h2>
+        <div class="answers" id="answers"></div>
+        <p class="feedback" id="feedback" aria-live="polite"></p>
+        <div class="btn-row"><button class="btn primary hidden" id="nextBtn" onclick="nextQuestion()">Siguiente pregunta ➜</button><button class="btn soft" onclick="quitQuiz()">Salir del juego</button></div>
+      </div>
+      <div id="quizResult" class="result hidden">
+        <div class="result-emoji" id="resultEmoji">👑</div>
+        <div class="eyebrow">¡RETO COMPLETADO!</div>
+        <div class="result-score" id="resultScore">0/100</div>
+        <h3 id="resultTitle">¡Lo hiciste!</h3>
+        <p id="resultMessage"></p>
+        <div class="badge-list" style="justify-content:center" id="newBadges"></div>
+        <div class="result-actions"><button class="btn primary" onclick="startQuiz(currentCategory)">🔁 Volver a jugar</button><button class="btn soft" onclick="startQuiz('mix')">🌈 Otro reto</button><button class="btn lilac" onclick="shareResult()">📋 Compartir resultado</button></div>
+      </div>
+    </div>
+    <aside class="side-card">
+      <h3>💌 Mensajito para ti</h3>
+      <p id="dailyMessage">Tu belleza no depende del maquillaje: ¡el maquillaje es una forma divertida de expresar tu creatividad!</p>
+      <button class="btn soft small" onclick="newMessage()">Otro mensaje bonito 💗</button>
+      <hr style="border-color:#ffffff30;margin:20px 0">
+      <h3>🏆 Tu colección</h3>
+      <p>Completa cuestionarios para desbloquear insignias y presumir tus logros.</p>
+      <div class="badge-list" id="badgeCollection"><span class="badge">🔒 Primera partida</span><span class="badge">🔒 Mente brillante</span></div>
+      <button class="btn lilac small" onclick="showBadges()">Ver mis insignias</button>
+    </aside>
+  </div>
+</section>
+
+<section class="section" id="consejos">
+  <div class="section-head"><div><h2>✨ Beauty tips</h2><p>Pequeños consejos para aprender y cuidar tu piel.</p></div><button class="btn soft small" onclick="newTip()">Dame otro tip ♡</button></div>
+  <div class="grid" id="tipsGrid">
+    <article class="tile"><span class="tile-emoji">🧼</span><strong>Prepara tu piel</strong><p>Una piel limpia e hidratada ayuda a que el maquillaje se vea más uniforme.</p></article>
+    <article class="tile"><span class="tile-emoji">🧽</span><strong>Herramientas limpias</strong><p>Lava las brochas con regularidad y déjalas secar completamente.</p></article>
+    <article class="tile"><span class="tile-emoji">☀️</span><strong>Protección solar</strong><p>Usa protector solar adecuado y reaplícalo según sus instrucciones.</p></article>
+    <article class="tile"><span class="tile-emoji">🌙</span><strong>Rutina de noche</strong><p>Retira el maquillaje suavemente antes de dormir.</p></article>
+  </div>
+</section>
+
+<section class="section" id="retos">
+  <div class="section-head"><div><h2>🏆 Retos y logros</h2><p>¡Haz que tu perfil beauty siga creciendo!</p></div></div>
+  <div class="question-list">
+    <article class="mini-card"><div class="emoji">🌸</div><h3>Primera partida</h3><p>Juega tu primer cuestionario.</p><span class="badge" id="challenge1">Pendiente</span></article>
+    <article class="mini-card"><div class="emoji">⭐</div><h3>¡A por los 50!</h3><p>Consigue al menos 50 puntos en una partida.</p><span class="badge" id="challenge2">Pendiente</span></article>
+    <article class="mini-card"><div class="emoji">👑</div><h3>Reina beauty</h3><p>Logra un resultado de 90% o más.</p><span class="badge" id="challenge3">Pendiente</span></article>
+  </div>
+</section>
+
+<section class="section callout">
+  <div><h2 style="margin:0 0 7px">💗 ¡Sigue brillando!</h2><div>Juega a tu ritmo, aprende algo nuevo y celebra cada avance.</div></div>
+  <button class="btn primary" onclick="startQuiz('mix')">Jugar ahora ✨</button>
+</section>
+</main>
+
+<footer>
+  <div style="font-size:30px">💄 💗 ✨</div>
+  <strong>MakeQuiz</strong> — Tu mundo de maquillaje, diversión y creatividad.<br>
+  Hecho con cariño para aprender jugando ♡<br>
+  <small>Contenido educativo. Los resultados son solo parte del juego.</small>
+</footer>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<div class="modal-backdrop hidden" id="modalBackdrop" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+  <div class="modal"><h2 id="modalTitle">💗 Mi perfil beauty</h2><label for="playerName">¿Cómo te llamas?</label><input id="playerName" maxlength="24" placeholder="Tu nombre o apodo"><label for="favoriteColor">Tu vibra favorita</label><select id="favoriteColor"><option>Rosa romántico 💗</option><option>Lila mágico 💜</option><option>Brillo dorado ✨</option><option>Rojo glam ❤️</option></select><div class="btn-row"><button class="btn primary" onclick="saveProfile()">Guardar perfil</button><button class="btn soft" onclick="closeModal()">Cerrar</button></div></div>
+</div>
+
+<script>
+const bank = [
+{cat:'basicos',q:'💄 ¿Para qué sirve principalmente el labial?',a:['Para dar color a los labios','Para peinar las cejas','Para limpiar el rostro','Para pintar las uñas'],c:0,tip:'¡Sí! El labial aporta color y permite crear distintos estilos.'},
+{cat:'basicos',q:'✨ ¿Qué producto suele usarse para dar color a las mejillas?',a:['Champú','Rubor o blush','Delineador','Gloss'],c:1,tip:'¡Correcto! El rubor da un toque de color a las mejillas.'},
+{cat:'basicos',q:'🧴 ¿Qué producto ayuda a hidratar la piel?',a:['Rímel','Delineador','Crema hidratante','Sombra'],c:2,tip:'¡Muy bien! Elige una crema adecuada para tu tipo de piel.'},
+{cat:'basicos',q:'💋 ¿Qué producto aporta brillo a los labios?',a:['Polvo compacto','Base','Corrector','Gloss'],c:3,tip:'¡Exacto! El gloss aporta un acabado brillante.'},
+{cat:'basicos',q:'🎨 ¿Para qué se utiliza la base de maquillaje?',a:['Para unificar visualmente el tono de la piel','Para lavar el cabello','Para pintar las uñas','Para perfumar'],c:0,tip:'¡Genial! La base puede ayudar a unificar la apariencia del tono.'},
+{cat:'basicos',q:'🌙 ¿Qué es recomendable hacer antes de dormir si llevas maquillaje?',a:['Añadir más polvo','Retirarlo suavemente','Aplicar más labial','No hacer nada'],c:1,tip:'¡Sí! Retirar el maquillaje forma parte de una buena rutina.'},
+{cat:'basicos',q:'🪞 ¿Qué es el corrector?',a:['Un perfume','Un esmalte','Un producto para disimular visualmente algunas zonas','Un champú'],c:2,tip:'¡Correcto! Se usa para cubrir o iluminar determinadas zonas.'},
+{cat:'basicos',q:'🌟 ¿Qué significa un maquillaje natural?',a:['Usar siempre muchos productos','Usar solo colores negros','Llevar glitter obligatorio','Buscar un acabado suave y discreto'],c:3,tip:'¡Muy bien! Un look natural suele buscar un acabado ligero.'},
+{cat:'ojos',q:'👁️ ¿Para qué sirve la máscara de pestañas o rímel?',a:['Para resaltar las pestañas','Para hidratar las manos','Para colorear los labios','Para fijar el cabello'],c:0,tip:'¡Exacto! Ayuda a definir y resaltar las pestañas.'},
+{cat:'ojos',q:'🖤 ¿Qué producto se usa para dibujar una línea junto a las pestañas?',a:['Rubor','Delineador','Gloss','Crema corporal'],c:1,tip:'¡Correcto! El delineador define el contorno de los ojos.'},
+{cat:'ojos',q:'🎨 ¿Dónde se aplica normalmente la sombra de ojos?',a:['En las uñas','En los labios','En los párpados','En el cuello'],c:2,tip:'¡Sí! Las sombras se aplican en los párpados para crear color y profundidad.'},
+{cat:'ojos',q:'🪄 ¿Qué herramienta ayuda a rizar las pestañas?',a:['Pinza de cejas','Esponja','Brocha grande','Rizador de pestañas'],c:3,tip:'¡Muy bien! Úsalo con cuidado y antes de aplicar la máscara.'},
+{cat:'ojos',q:'🌈 ¿Qué es un look ahumado o smoky eye?',a:['Un estilo de ojos con colores difuminados','Un tipo de labial','Una crema solar','Un diseño de uñas'],c:0,tip:'¡Correcto! El efecto ahumado se logra difuminando sombras.'},
+{cat:'ojos',q:'🧼 ¿Por qué no es buena idea compartir maquillaje de ojos?',a:['Porque cambia de color','Por higiene y riesgo de transmitir infecciones','Porque se acaba más rápido','Porque no combina'],c:1,tip:'¡Exacto! Los productos de ojos deben mantenerse personales.'},
+{cat:'ojos',q:'✨ ¿Qué significa difuminar una sombra?',a:['Dibujar un círculo perfecto','Retirarla por completo','Suavizar los bordes y transiciones','Aplicar pegamento'],c:2,tip:'¡Sí! Difuminar evita líneas duras entre los colores.'},
+{cat:'piel',q:'☀️ ¿Qué producto ayuda a proteger la piel de la radiación UV?',a:['Gloss','Rubor','Rímel','Protector solar'],c:3,tip:'¡Muy bien! El protector solar es importante incluso si llevas maquillaje.'},
+{cat:'piel',q:'🧼 ¿Qué conviene hacer antes de maquillarse?',a:['Limpiar la piel suavemente','Aplicar pegamento','Dormir con maquillaje','Frotar con fuerza'],c:0,tip:'¡Correcto! Una piel limpia es un buen comienzo.'},
+{cat:'piel',q:'🧽 ¿Para qué se utiliza una esponja de maquillaje?',a:['Para peinar','Para difuminar productos como base o corrector','Para cortar uñas','Para perfumar'],c:1,tip:'¡Sí! Humedecida según las indicaciones, puede ayudar a difuminar productos.'},
+{cat:'piel',q:'💧 ¿Qué ayuda a mantener la piel hidratada?',a:['No beber nunca agua','Usar jabón fuerte constantemente','Una hidratante adecuada para tu piel','Dormir con maquillaje'],c:2,tip:'¡Exacto! Escoge productos apropiados para las necesidades de tu piel.'},
+{cat:'piel',q:'🧴 ¿Qué deberías considerar al elegir una base?',a:['Solo el nombre','Que sea la más cara','El color del envase','Tu tono y tipo de piel'],c:3,tip:'¡Muy bien! El tono, el acabado y tu tipo de piel importan.'},
+{cat:'piel',q:'🧻 ¿Qué es recomendable hacer con una brocha después de lavarla?',a:['Dejarla secar completamente','Guardarla mojada en una bolsa','Compartirla enseguida','Calentarla con fuego'],c:0,tip:'¡Sí! Dejarla secar bien ayuda a mantener la higiene.'},
+{cat:'labios',q:'💋 ¿Qué producto da color a los labios?',a:['Máscara de pestañas','Labial','Base de uñas','Champú'],c:1,tip:'¡Correcto! Hay labiales mate, satinados, cremosos y más.'},
+{cat:'labios',q:'✨ ¿Qué acabado suele tener un labial mate?',a:['Muy húmedo siempre','Con purpurina obligatoria','Con poco brillo','Transparente siempre'],c:2,tip:'¡Exacto! El acabado mate suele tener poco o ningún brillo.'},
+{cat:'labios',q:'💄 ¿Para qué sirve un perfilador de labios?',a:['Para rizar pestañas','Para aplicar base en el rostro','Para limpiar brochas','Para definir el contorno de los labios'],c:3,tip:'¡Muy bien! También puede ayudar a crear una forma definida.'},
+{cat:'labios',q:'🌸 ¿Qué puedes hacer si tus labios están secos antes del labial?',a:['Aplicar un bálsamo adecuado','Frotarlos con fuerza','Usar pegamento','Ponerles champú'],c:0,tip:'¡Sí! Un bálsamo puede ayudar a suavizarlos.'},
+{cat:'labios',q:'🎀 ¿Qué producto suele ser más ligero y brillante?',a:['Polvo compacto','Gloss','Delineador de ojos','Rímel'],c:1,tip:'¡Correcto! El gloss suele dar un acabado brillante.'},
+{cat:'herramientas',q:'🖌️ ¿Qué herramienta se usa para aplicar o difuminar polvo y rubor?',a:['Peine fino','Lima','Brocha','Pinza de ropa'],c:2,tip:'¡Muy bien! Hay brochas con formas diferentes para distintas tareas.'},
+{cat:'herramientas',q:'🧽 ¿Qué se debe hacer con las esponjas de maquillaje?',a:['Guardarlas siempre mojadas','Prestarlas a todo el mundo','No limpiarlas nunca','Limpiarlas con regularidad y dejarlas secar'],c:3,tip:'¡Exacto! La limpieza de herramientas es importante.'},
+{cat:'herramientas',q:'✂️ ¿Para qué sirve una pinza de cejas?',a:['Para retirar con cuidado algunos pelitos','Para aplicar labial','Para rizar el cabello','Para mezclar sombras'],c:0,tip:'¡Sí! Se utiliza para retirar pelitos sueltos con cuidado.'},
+{cat:'herramientas',q:'🪞 ¿Para qué sirve un espejo de aumento?',a:['Para mezclar colores en una paleta','Para ver detalles más de cerca','Para aplicar perfume','Para limpiar la piel'],c:1,tip:'¡Correcto! Ayuda a observar detalles del maquillaje.'},
+{cat:'marcas',q:'🛍️ ¿Qué tipo de producto es un esmalte?',a:['Una crema facial','Un delineador líquido','Un producto para dar color a las uñas','Un protector solar'],c:2,tip:'¡Correcto! El esmalte se utiliza para decorar las uñas.'},
+{cat:'marcas',q:'🧴 ¿Qué información es importante revisar en un cosmético?',a:['Solo el color del envase','El número de seguidores de la marca','La decoración de la caja','Ingredientes, instrucciones y fecha de vencimiento cuando aplique'],c:3,tip:'¡Muy bien! Leer la etiqueta ayuda a elegir y usar productos adecuadamente.'},
+{cat:'marcas',q:'💗 ¿Qué significa que un producto sea “sin fragancia añadida”?',a:['Que no se le añadió perfume para perfumarlo','Que siempre es hipoalergénico','Que se puede comer','Que nunca causa irritación'],c:0,tip:'¡Exacto! No garantiza que el producto sea adecuado para todo el mundo.'},
+{cat:'experta',q:'🎨 ¿Qué es el subtono de la piel?',a:['El color de tu camiseta','El matiz sutil que influye en cómo se percibe el tono de piel','El color del cabello únicamente','El tono del envase'],c:1,tip:'¡Muy bien! El subtono suele describirse como cálido, frío o neutro.'},
+{cat:'experta',q:'🪄 ¿Qué significa “construir cobertura” en maquillaje?',a:['Aplicar todo de golpe','Mezclar maquillaje con jabón','Añadir capas finas gradualmente hasta lograr el efecto deseado','Dejar el producto abierto'],c:2,tip:'¡Correcto! Las capas finas permiten controlar mejor el acabado.'},
+{cat:'experta',q:'🌈 ¿Qué es una paleta de colores complementarios?',a:['Colores exactamente iguales','Solo tonos negros','Una colección de productos de limpieza','Colores opuestos en el círculo cromático'],c:3,tip:'¡Exacto! Los colores complementarios se encuentran opuestos en el círculo cromático.'},
+{cat:'experta',q:'🧴 ¿Qué deberías hacer si un cosmético provoca ardor o irritación?',a:['Dejar de usarlo y retirar el producto con suavidad','Aplicar más cantidad','Ignorar siempre la reacción','Compartirlo para probar'],c:0,tip:'¡Muy importante! Suspende su uso; si la reacción es intensa o persiste, busca orientación médica.'},
+{cat:'experta',q:'✨ ¿Qué aporta un primer o prebase, según su fórmula?',a:['Siempre sustituye al protector solar','Puede ayudar a preparar la superficie y mejorar el acabado','Siempre cambia el tono de piel','Sirve solo para los labios'],c:1,tip:'¡Bien! Los primers tienen funciones diferentes según la fórmula.'},
+{cat:'experta',q:'🪞 ¿Qué es el “cut crease” en maquillaje de ojos?',a:['Una técnica para colorear uñas','Un tipo de crema','Una técnica que define el pliegue del párpado con contraste','Un estilo de peinado'],c:2,tip:'¡Eres una beauty experta! Esta técnica crea una separación definida en el párpado.'}
+];
+
+const categoryNames={basicos:'💄 Maquillaje básico',ojos:'👁️ Ojos de impacto',piel:'🧴 Piel radiante',labios:'💋 Labios perfectos',herramientas:'🖌️ Brochas y herramientas',marcas:'🛍️ Marcas y productos',experta:'👑 Nivel experta',mix:'🌈 De todo un poco',daily:'🎁 Reto sorpresa'};
+const messages=[
+'Tu belleza no depende del maquillaje: ¡úsalo para expresar tu creatividad! 💗',
+'No necesitas ser perfecta para brillar. ¡Tu estilo es único! ✨',
+'Cada error es una oportunidad para aprender algo nuevo. 🌸',
+'Recuerda: el mejor look es el que te hace sentir cómoda contigo misma. 👑',
+'¡Eres una obra de arte en constante creación! 🎨',
+'Tu sonrisa combina con todos los colores. 💋',
+'La creatividad no tiene reglas: atrévete a probar y divertirte. 🌈'
+];
+const tips=[
+{e:'🧴',t:'Conoce tu piel',p:'Elige productos adecuados para las necesidades de tu piel y suspende los que te causen irritación.'},
+{e:'🖌️',t:'Difumina con paciencia',p:'Haz movimientos suaves y pequeños para lograr transiciones más uniformes entre los tonos.'},
+{e:'💄',t:'Prueba los tonos',p:'Si puedes, prueba el color en condiciones de luz natural y sigue las recomendaciones de higiene de la tienda.'},
+{e:'☀️',t:'Protege tu piel',p:'El maquillaje no sustituye al protector solar; utiliza uno adecuado y sigue las instrucciones.'},
+{e:'🧼',t:'Cuida tus herramientas',p:'Limpia tus brochas y esponjas con regularidad y no compartas productos que toquen ojos o labios.'},
+{e:'🌙',t:'Desmaquíllate',p:'Retira el maquillaje sin frotar fuerte y termina con tu rutina de cuidado habitual.'},
+{e:'🌈',t:'Juega con los colores',p:'Prueba combinaciones pequeñas y elige tonos que te hagan sentir feliz y auténtica.'},
+{e:'💋',t:'Prepara tus labios',p:'Un bálsamo adecuado puede ayudar a suavizar los labios antes de aplicar color.'}
+];
+let currentCategory='mix',currentQuestions=[],index=0,score=0,answered=false,profile={name:'Beauty Star',vibe:'Rosa romántico 💗'},soundOn=true;
+let stats={points:0,played:0,best:0,badges:[]};
+try{stats={...stats,...JSON.parse(localStorage.getItem('makequizStats')||'{}')};profile={...profile,...JSON.parse(localStorage.getItem('makequizProfile')||'{}')}}catch(e){}
+function saveData(){try{localStorage.setItem('makequizStats',JSON.stringify(stats));localStorage.setItem('makequizProfile',JSON.stringify(profile))}catch(e){}}
+function updateStats(){
+ document.getElementById('totalPoints').textContent=stats.points;
+ document.getElementById('playedCount').textContent=stats.played;
+ document.getElementById('bestScore').textContent=stats.best+'%';
+ document.getElementById('badgeCount').textContent=stats.badges.length;
+ document.getElementById('challenge1').textContent=stats.played?'¡Completado!':'Pendiente';
+ document.getElementById('challenge2').textContent=stats.badges.includes('50 puntos')?'¡Completado!':'Pendiente';
+ document.getElementById('challenge3').textContent=stats.badges.includes('Reina beauty')?'¡Completado!':'Pendiente';
+ const bc=document.getElementById('badgeCollection');
+ bc.innerHTML=stats.badges.length?stats.badges.map(b=>`<span class="badge">🏅 ${escapeHtml(b)}</span>`).join(''):'<span class="badge">🔒 Primera partida</span><span class="badge">🔒 Mente brillante</span>';
+}
+function escapeHtml(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function goTo(id){document.getElementById(id).scrollIntoView({behavior:'smooth'});document.querySelectorAll('.nav button').forEach(b=>b.classList.toggle('active',b.dataset.go===id))}
+document.querySelectorAll('[data-go]').forEach(b=>b.addEventListener('click',()=>goTo(b.dataset.go)));
+function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');clearTimeout(toast.timer);toast.timer=setTimeout(()=>t.classList.remove('show'),2600)}
+function beep(){if(!soundOn)return;try{const C=window.AudioContext||window.webkitAudioContext;if(!C)return;const c=new C(),o=c.createOscillator(),g=c.createGain();o.connect(g);g.connect(c.destination);o.frequency.value=660;g.gain.value=.035;o.start();o.stop(c.currentTime+.09);o.onended=()=>c.close()}catch(e){}}
+function startQuiz(cat){
+ currentCategory=cat||'mix';
+ let pool=currentCategory==='mix'||currentCategory==='daily'?[...bank]:bank.filter(q=>q.cat===currentCategory);
+ if(!pool.length)pool=[...bank];
+ currentQuestions=pool.sort(()=>Math.random()-.5).slice(0,Math.min(10,pool.length));
+ index=0;score=0;answered=false;
+ document.getElementById('quizWelcome').classList.add('hidden');
+ document.getElementById('quizResult').classList.add('hidden');
+ document.getElementById('quizArea').classList.remove('hidden');
+ document.getElementById('quizCategory').textContent=categoryNames[currentCategory]||'🌸 Reto beauty';
+ document.getElementById('livePoints').textContent='0';
+ renderQuestion();goTo('juego');
+}
+function renderQuestion(){
+ answered=false;const q=currentQuestions[index];
+ document.getElementById('questionCount').textContent=`Pregunta ${index+1}/${currentQuestions.length}`;
+ document.getElementById('progressBar').style.width=`${index/currentQuestions.length*100}%`;
+ document.getElementById('questionTitle').textContent=q.q;
+ document.getElementById('feedback').textContent='';
+ document.getElementById('nextBtn').classList.add('hidden');
+ const answers=document.getElementById('answers');answers.innerHTML='';
+ q.a.forEach((a,i)=>{const b=document.createElement('button');b.className='answer';b.textContent=String.fromCharCode(65+i)+'. '+a;b.addEventListener('click',()=>selectAnswer(i,b));answers.appendChild(b)});
+}
+function selectAnswer(choice,button){
+ if(answered)return;answered=true;const q=currentQuestions[index],buttons=[...document.querySelectorAll('.answer')];
+ buttons.forEach((b,i)=>{b.disabled=true;if(i===q.c)b.classList.add('correct')});
+ const fb=document.getElementById('feedback');
+ if(choice===q.c){score+=10;fb.textContent='💖 ¡Respuesta correcta! '+q.tip;fb.style.color='var(--green)';beep()}
+ else{button.classList.add('wrong');fb.textContent='🌷 ¡Casi! La respuesta correcta está marcada en verde. '+q.tip;fb.style.color='#bd326c'}
+ document.getElementById('livePoints').textContent=score;
+ document.getElementById('progressBar').style.width=`${(index+1)/currentQuestions.length*100}%`;
+ const next=document.getElementById('nextBtn');next.textContent=index===currentQuestions.length-1?'Ver mis resultados 👑':'Siguiente pregunta ➜';next.classList.remove('hidden');
+}
+function nextQuestion(){if(!answered)return;if(index<currentQuestions.length-1){index++;renderQuestion()}else finishQuiz()}
+function finishQuiz(){
+ const pct=Math.round(score/(currentQuestions.length*10)*100);
+ stats.points+=score;stats.played++;stats.best=Math.max(stats.best,pct);
+ const before=[...stats.badges];
+ if(!stats.badges.includes('Primera partida'))stats.badges.push('Primera partida');
+ if(score>=50&&!stats.badges.includes('50 puntos'))stats.badges.push('50 puntos');
+ if(pct>=90&&!stats.badges.includes('Reina beauty'))stats.badges.push('Reina beauty');
+ if(stats.played>=5&&!stats.badges.includes('Beauty constante'))stats.badges.push('Beauty constante');
+ saveData();updateStats();
+ document.getElementById('quizArea').classList.add('hidden');document.getElementById('quizResult').classList.remove('hidden');
+ document.getElementById('resultScore').textContent=`${score}/${currentQuestions.length*10}`;
+ let title,msg,emoji;
+ if(pct>=90){title='¡Reina absoluta del maquillaje!';msg='¡Qué nivel! Tienes una memoria beauty increíble. Sigue aprendiendo y compartiendo tu creatividad.';emoji='👑'}
+ else if(pct>=70){title='¡Estrella beauty!';msg='¡Lo hiciste genial! Sabes muchísimo y cada reto te ayuda a aprender todavía más.';emoji='💄'}
+ else if(pct>=50){title='¡Vas por buen camino!';msg='Tienes una buena base. Sigue practicando, que cada pregunta te acerca a tu mejor versión.';emoji='🌸'}
+ else{title='¡Principiante con mucho potencial!';msg='No te preocupes por la puntuación: lo importante es divertirse y descubrir cosas nuevas. ¡Inténtalo otra vez!' ;emoji='🎀'}
+ document.getElementById('resultEmoji').textContent=emoji;
+ document.getElementById('resultTitle').textContent=(profile.name?profile.name+', ':'')+title;
+ document.getElementById('resultMessage').textContent=msg;
+ const added=stats.badges.filter(b=>!before.includes(b));
+ document.getElementById('newBadges').innerHTML=added.length?added.map(b=>`<span class="badge">🏅 Nueva insignia: ${escapeHtml(b)}</span>`).join(''):'<span class="badge">💗 ¡Gracias por jugar!</span>';
+ toast('¡Reto completado! Ganaste '+score+' puntos 💗');
+}
+function quitQuiz(){document.getElementById('quizArea').classList.add('hidden');document.getElementById('quizResult').classList.add('hidden');document.getElementById('quizWelcome').classList.remove('hidden');toast('¡Puedes volver cuando quieras! 🌸')}
+function dailyChallenge(){startQuiz('daily');toast('🎁 ¡Reto sorpresa activado!')}
+function newMessage(){document.getElementById('dailyMessage').textContent=messages[Math.floor(Math.random()*messages.length)]}
+function newTip(){const t=tips[Math.floor(Math.random()*tips.length)],grid=document.getElementById('tipsGrid');const card=document.createElement('article');card.className='tile';card.innerHTML=`<span class="tile-emoji">${t.e}</span><strong>${escapeHtml(t.t)}</strong><p>${escapeHtml(t.p)}</p>`;grid.prepend(card);toast('✨ ¡Nuevo tip beauty!')}
+function showBadges(){toast(stats.badges.length?'Tus insignias: '+stats.badges.join(' · '):'¡Juega tu primer reto para ganar insignias! 🏅')}
+function shareResult(){
+ const text=`💗 Mi resultado en MakeQuiz: ${score}/${currentQuestions.length*10} puntos. ¡Estoy descubriendo el mundo beauty! 💄✨`;
+ if(navigator.share){navigator.share({title:'Mi resultado MakeQuiz',text}).catch(()=>{})}
+ else if(navigator.clipboard){navigator.clipboard.writeText(text).then(()=>toast('¡Resultado copiado para compartir! 💌')).catch(()=>toast(text))}
+ else toast(text)
+}
+function openProfile(){document.getElementById('playerName').value=profile.name==='Beauty Star'?'':profile.name;document.getElementById('favoriteColor').value=profile.vibe;document.getElementById('modalBackdrop').classList.remove('hidden')}
+function closeModal(){document.getElementById('modalBackdrop').classList.add('hidden')}
+function saveProfile(){profile.name=document.getElementById('playerName').value.trim()||'Beauty Star';profile.vibe=document.getElementById('favoriteColor').value;saveData();closeModal();toast('¡Perfil guardado, '+profile.name+'! 💗')}
+document.getElementById('profileBtn').addEventListener('click',openProfile);
+document.getElementById('soundBtn').addEventListener('click',()=>{soundOn=!soundOn;document.getElementById('soundBtn').textContent=soundOn?'🔔':'🔕';toast(soundOn?'Sonidos activados':'Sonidos desactivados')});
+document.getElementById('modalBackdrop').addEventListener('click',e=>{if(e.target.id==='modalBackdrop')closeModal()});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal();if(e.key==='Enter'&&!document.getElementById('nextBtn').classList.contains('hidden')&&document.activeElement.tagName!=='BUTTON')nextQuestion()});
+updateStats();
+</script>
+</body>
+</html>
